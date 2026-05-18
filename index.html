@@ -1,0 +1,1179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiMitra 🌾</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-dark: #0f3d1f;
+  --green-mid: #1a6b35;
+  --green-accent: #2ecc71;
+  --green-light: #e8f5e9;
+  --gold: #f0c040;
+  --cream: #faf8f3;
+  --text: #1a1a1a;
+  --text-muted: #5a6a5a;
+  --white: #ffffff;
+  --radius: 16px;
+  --shadow: 0 8px 40px rgba(0,0,0,0.10);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+/* ── PAGE SYSTEM ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 1000;
+  background: rgba(15,61,31,0.97);
+  backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5vw; height: 68px;
+  border-bottom: 1px solid rgba(46,204,113,0.15);
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  color: var(--white); font-size: 1.5rem; font-weight: 700;
+  cursor: pointer; user-select: none;
+}
+.nav-logo span { color: var(--green-accent); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: rgba(255,255,255,0.75); text-decoration: none;
+  font-size: 0.92rem; font-weight: 500;
+  cursor: pointer; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--green-accent); }
+.nav-links a.active { color: var(--green-accent); }
+.nav-cta {
+  background: var(--green-accent) !important;
+  color: var(--green-dark) !important;
+  padding: 8px 20px; border-radius: 50px; font-weight: 600 !important;
+}
+
+/* ── BUTTONS ── */
+.btn-primary {
+  background: var(--green-accent); color: var(--green-dark);
+  padding: 14px 32px; border-radius: 50px;
+  font-weight: 700; font-size: 1rem;
+  border: none; cursor: pointer; display: inline-block;
+  transition: all 0.2s; box-shadow: 0 4px 20px rgba(46,204,113,0.35);
+  text-decoration: none;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(46,204,113,0.5); }
+.btn-outline {
+  background: transparent; color: var(--white);
+  padding: 14px 32px; border-radius: 50px;
+  font-weight: 500; font-size: 1rem;
+  border: 1px solid rgba(255,255,255,0.3); cursor: pointer;
+  display: inline-block; transition: all 0.2s; text-decoration: none;
+}
+.btn-outline:hover { background: rgba(255,255,255,0.08); }
+
+/* ════════════════════════════════
+   HOME PAGE
+   ════════════════════════════════ */
+.hero {
+  min-height: calc(100vh - 68px);
+  background: linear-gradient(135deg, #0a2412 0%, #0f3d1f 50%, #123318 100%);
+  display: flex; align-items: center; position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(46,204,113,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(240,192,64,0.06) 0%, transparent 40%),
+    linear-gradient(rgba(46,204,113,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46,204,113,0.04) 1px, transparent 1px);
+  background-size: auto, auto, 60px 60px, 60px 60px;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 1200px; margin: 0 auto; padding: 60px 5vw;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.3);
+  color: var(--green-accent); padding: 6px 16px; border-radius: 50px;
+  font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.05em; margin-bottom: 1.5rem;
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 3.8rem);
+  color: var(--white); line-height: 1.15; margin-bottom: 1.5rem;
+}
+.hero-title .accent { color: var(--green-accent); }
+.hero-title .gold { color: var(--gold); }
+.hero-sub {
+  color: rgba(255,255,255,0.65); font-size: 1.05rem;
+  line-height: 1.7; margin-bottom: 2.5rem;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-stats { display: flex; gap: 2.5rem; margin-top: 3rem; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); font-weight: 700; }
+.stat-label { font-size: 0.76rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+
+/* Hero right card */
+.hero-visual-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius); backdrop-filter: blur(12px); padding: 24px;
+}
+.hvc-label { color: var(--green-accent); font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
+.crop-pill-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.crop-pill {
+  background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.2);
+  border-radius: 10px; padding: 10px 8px; text-align: center;
+  font-size: 0.82rem; color: rgba(255,255,255,0.85); cursor: pointer;
+  transition: all 0.2s;
+}
+.crop-pill:hover { background: rgba(46,204,113,0.22); transform: translateY(-2px); }
+.crop-pill .pe { display: block; font-size: 1.4rem; margin-bottom: 4px; }
+
+/* SERVICES */
+.services-section { background: var(--white); padding: 80px 5vw; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-label { display: inline-block; color: var(--green-mid); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); line-height: 1.2; margin-bottom: 1rem; }
+.section-desc { color: var(--text-muted); max-width: 560px; line-height: 1.7; font-size: 1rem; }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+.service-card {
+  background: var(--cream); border: 1px solid #e5ede5; border-radius: var(--radius);
+  padding: 28px; cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden;
+}
+.service-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--green-accent); }
+.sc-icon { width: 52px; height: 52px; border-radius: 13px; background: var(--green-light); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+.sc-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; }
+.sc-desc { color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; }
+.sc-arrow { position: absolute; top: 22px; right: 22px; color: var(--green-mid); font-size: 1.1rem; opacity: 0; transition: all 0.25s; transform: translateX(-8px); }
+.service-card:hover .sc-arrow { opacity: 1; transform: translateX(0); }
+
+/* WHY */
+.why-section { padding: 80px 5vw; }
+.why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+.why-visual {
+  background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+  border-radius: 22px; padding: 36px; position: relative; overflow: hidden;
+}
+.why-visual::after { content: '🌾'; position: absolute; bottom: -20px; right: -10px; font-size: 10rem; opacity: 0.07; }
+.why-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.why-stat-box { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 13px; padding: 18px; color: var(--white); text-align: center; }
+.why-stat-box .num { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--green-accent); font-weight: 700; }
+.why-stat-box .label { font-size: 0.76rem; opacity: 0.65; margin-top: 3px; }
+.features-list { display: flex; flex-direction: column; gap: 1rem; }
+.feature-item { display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border-radius: 13px; background: var(--white); border: 1px solid #e8f0e8; transition: all 0.2s; }
+.feature-item:hover { border-color: var(--green-accent); box-shadow: 0 4px 14px rgba(46,204,113,0.1); }
+.fi-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+.fi-title { font-weight: 600; margin-bottom: 3px; font-size: 0.95rem; }
+.fi-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+/* CTA */
+.cta-section { background: linear-gradient(135deg, var(--green-mid), var(--green-dark)); padding: 72px 5vw; text-align: center; }
+.cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--white); margin-bottom: 0.8rem; }
+.cta-section p { color: rgba(255,255,255,0.7); margin-bottom: 2rem; font-size: 1rem; }
+.cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* FOOTER */
+footer { background: #080f09; color: rgba(255,255,255,0.55); padding: 44px 5vw 20px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.footer-brand p { font-size: 0.88rem; line-height: 1.7; margin-top: 0.7rem; max-width: 260px; }
+.footer-logo { font-family: 'Playfair Display', serif; color: var(--white); font-size: 1.3rem; }
+.footer-logo span { color: var(--green-accent); }
+.footer-col h4 { color: var(--white); font-weight: 600; margin-bottom: 0.9rem; font-size: 0.88rem; }
+.footer-col a { display: block; color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.86rem; margin-bottom: 0.55rem; cursor: pointer; transition: color 0.2s; }
+.footer-col a:hover { color: var(--green-accent); }
+.footer-bottom { max-width: 1200px; margin: 20px auto 0; display: flex; justify-content: space-between; font-size: 0.8rem; }
+
+/* ════════════════════════════════
+   ADVISORY PAGE
+   ════════════════════════════════ */
+.page-hero {
+  background: linear-gradient(135deg, #0a2412, #0f3d1f);
+  padding: 56px 5vw 46px; position: relative; overflow: hidden;
+}
+.page-hero::after { content: ''; position: absolute; right: 5vw; bottom: -30px; font-size: 12rem; opacity: 0.07; }
+.ph-inner { max-width: 1200px; margin: 0 auto; }
+.ph-label { display: inline-block; color: var(--green-accent); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.7rem; }
+.ph-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--white); margin-bottom: 0.7rem; }
+.ph-desc { color: rgba(255,255,255,0.6); font-size: 0.95rem; max-width: 500px; line-height: 1.7; }
+
+.adv-main { max-width: 1200px; margin: 0 auto; padding: 44px 5vw; }
+.select-card { background: var(--white); border: 1px solid #e0eae0; border-radius: 20px; padding: 32px; box-shadow: var(--shadow); margin-bottom: 2.5rem; }
+.select-card h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--green-dark); margin-bottom: 1.4rem; }
+.crop-selector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; margin-bottom: 1.8rem; }
+.crop-btn {
+  background: #f0f7f0; border: 1.5px solid #d4e8d4; border-radius: 12px;
+  padding: 13px 8px; cursor: pointer; text-align: center;
+  transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem; color: var(--green-dark); font-weight: 500;
+}
+.crop-btn .ce { display: block; font-size: 1.5rem; margin-bottom: 5px; }
+.crop-btn:hover { border-color: var(--green-accent); background: #e8f5e9; transform: translateY(-2px); }
+.crop-btn.selected { border-color: var(--green-accent); background: #e8f5e9; box-shadow: 0 0 0 3px rgba(46,204,113,0.15); }
+.get-advice-btn {
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+  color: var(--white); border: none; border-radius: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(15,61,31,0.25);
+}
+.get-advice-btn:hover { transform: translateY(-2px); }
+.get-advice-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+#advice-output { display: none; }
+.advice-header {
+  display: flex; align-items: center; gap: 16px;
+  background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+  border-radius: 18px; padding: 26px 30px; margin-bottom: 1.4rem; color: var(--white);
+}
+.ah-emoji { font-size: 2.8rem; }
+.ah-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; }
+.ah-sub { color: rgba(255,255,255,0.6); font-size: 0.88rem; margin-top: 3px; }
+.profit-badge {
+  margin-left: auto; flex-shrink: 0;
+  background: rgba(240,192,64,0.14); border: 1px solid rgba(240,192,64,0.35);
+  border-radius: 12px; padding: 11px 18px; text-align: center;
+}
+.profit-badge .pb-num { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); font-weight: 700; }
+.profit-badge .pb-label { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.advice-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.1rem; }
+.acard { background: var(--white); border: 1px solid #e0eae0; border-radius: var(--radius); padding: 22px; transition: all 0.2s; }
+.acard:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--green-accent); }
+.acard-icon { width: 44px; height: 44px; border-radius: 11px; background: var(--cream); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 0.9rem; }
+.acard-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green-mid); margin-bottom: 7px; }
+.acard-content { color: var(--text); font-size: 0.92rem; line-height: 1.6; }
+
+/* ════════════════════════════════
+   PEST PAGE
+   ════════════════════════════════ */
+.controls-bar {
+  background: var(--white); border-bottom: 1px solid #e5ede5;
+  padding: 0 5vw; position: sticky; top: 68px; z-index: 90;
+}
+.controls-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: 1.2rem;
+  padding: 14px 0; flex-wrap: wrap;
+}
+.ctrl-label { font-size: 0.76rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); white-space: nowrap; }
+.filter-btn {
+  background: #f0f7f0; border: 1.5px solid #d4e8d4; border-radius: 50px;
+  padding: 7px 16px; font-family: 'DM Sans', sans-serif;
+  font-size: 0.84rem; font-weight: 500; color: var(--green-dark);
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.filter-btn:hover { border-color: var(--green-accent); background: #e8f5e9; }
+.filter-btn.active { background: var(--green-dark); color: var(--white); border-color: var(--green-dark); }
+.divider-v { width: 1px; height: 26px; background: #d4e8d4; flex-shrink: 0; }
+
+.pest-main { max-width: 1200px; margin: 0 auto; padding: 40px 5vw; }
+
+.pest-card {
+  background: var(--white); border: 1px solid #e0eae0; border-radius: 20px;
+  overflow: hidden; box-shadow: var(--shadow); margin-bottom: 1.8rem;
+  display: none; transition: all 0.3s;
+}
+.pest-card.visible { display: block; }
+.pest-card:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,0.11); }
+
+.pc-header {
+  display: flex; align-items: center; gap: 22px;
+  padding: 26px 30px; background: linear-gradient(135deg, #f5fcf7, #ecf7ef);
+  border-bottom: 1px solid #e0eae0;
+}
+.pc-img { width: 84px; height: 84px; border-radius: 13px; object-fit: cover; border: 2px solid #c8e6c9; flex-shrink: 0; background: #e8f5e9; transition: transform 0.3s; cursor: zoom-in; }
+.pc-img:hover { transform: scale(1.55); z-index: 10; position: relative; }
+.pc-region-badge { display: inline-block; background: var(--green-dark); color: var(--white); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 50px; margin-bottom: 7px; }
+.pc-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--green-dark); margin-bottom: 3px; }
+.pc-season { font-size: 0.86rem; color: var(--text-muted); }
+.pc-voice { background: var(--green-dark); color: var(--white); border: none; border-radius: 50px; padding: 9px 18px; font-family: 'DM Sans', sans-serif; font-size: 0.83rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 7px; flex-shrink: 0; margin-left: auto; }
+.pc-voice:hover { background: var(--green-mid); }
+.pc-quick { display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #fff8e1, #fffde7); border-left: 4px solid var(--gold); padding: 13px 28px; font-weight: 600; font-size: 0.9rem; color: #5a4a00; }
+.pc-body { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.pc-section { padding: 22px 26px; border-right: 1px solid #e8f0e8; border-bottom: 1px solid #e8f0e8; }
+.pc-section:last-child { border-right: none; }
+.pc-section-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green-mid); margin-bottom: 10px; }
+.pc-list { list-style: none; }
+.pc-list li { padding: 4px 0; font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; display: flex; align-items: flex-start; gap: 7px; }
+.pc-list li::before { content: '—'; color: var(--green-accent); flex-shrink: 0; }
+.damage-section { background: #fff8f8; }
+.damage-section .pc-list li::before { content: '!'; color: #e53935; font-weight: 700; }
+.pc-footer { display: flex; gap: 0.8rem; padding: 14px 26px; background: #f8fbf8; border-top: 1px solid #e0eae0; flex-wrap: wrap; }
+.pc-tag { display: flex; align-items: center; gap: 6px; background: var(--white); border: 1px solid #d4e8d4; border-radius: 8px; padding: 5px 13px; font-size: 0.8rem; color: var(--green-dark); }
+
+/* ════════════════════════════════
+   REGISTER PAGE
+   ════════════════════════════════ */
+.register-wrap { min-height: calc(100vh - 68px); display: flex; background: #0a2412; }
+.reg-left {
+  flex: 1; background: linear-gradient(145deg, #0a2412, #0f3d1f 60%, #1a6b35);
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 48px; position: relative; overflow: hidden;
+}
+.reg-left::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 70%, rgba(46,204,113,0.14) 0%, transparent 50%); }
+.reg-left::after { content: '🌾'; position: absolute; bottom: -40px; right: -30px; font-size: 16rem; opacity: 0.04; }
+.rl-logo { font-family: 'Playfair Display', serif; color: var(--white); font-size: 1.7rem; font-weight: 700; cursor: pointer; position: relative; z-index: 2; }
+.rl-logo span { color: var(--green-accent); }
+.rl-content { position: relative; z-index: 2; }
+.rl-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.25); color: var(--green-accent); padding: 5px 14px; border-radius: 50px; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1.4rem; }
+.rl-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--white); line-height: 1.2; margin-bottom: 1.1rem; }
+.rl-title .accent { color: var(--green-accent); }
+.rl-desc { color: rgba(255,255,255,0.58); line-height: 1.7; font-size: 0.93rem; max-width: 360px; }
+.rl-stats { display: flex; gap: 2rem; margin-top: 2.5rem; }
+.rls-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); font-weight: 700; }
+.rls-label { font-size: 0.74rem; color: rgba(255,255,255,0.44); letter-spacing: 0.04em; }
+.rl-bottom { position: relative; z-index: 2; }
+.rl-features { display: flex; flex-direction: column; gap: 10px; }
+.rl-feat { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.68); font-size: 0.86rem; }
+.rl-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-accent); flex-shrink: 0; }
+
+.reg-right { width: 480px; background: var(--cream); display: flex; flex-direction: column; justify-content: center; padding: 48px 40px; overflow-y: auto; position: relative; }
+.rr-back { position: absolute; top: 28px; left: 28px; color: var(--green-mid); font-size: 0.84rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: color 0.2s; border: none; background: none; font-family: 'DM Sans', sans-serif; }
+.rr-back:hover { color: var(--green-dark); }
+.form-header { margin-bottom: 1.8rem; }
+.form-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--green-dark); margin-bottom: 0.3rem; }
+.form-header p { color: #5a6a5a; font-size: 0.88rem; }
+.form-group { margin-bottom: 1.1rem; }
+.form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--green-dark); margin-bottom: 5px; letter-spacing: 0.02em; }
+.form-input { width: 100%; padding: 11px 15px; border: 1.5px solid #d4e4d4; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.93rem; color: var(--green-dark); background: var(--white); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+.form-input:focus { border-color: var(--green-accent); box-shadow: 0 0 0 3px rgba(46,204,113,0.1); }
+.form-input::placeholder { color: #a0b0a0; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.btn-submit { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--green-mid), var(--green-dark)); color: var(--white); border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; box-shadow: 0 4px 14px rgba(15,61,31,0.25); }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(15,61,31,0.35); }
+#result-card { display: none; background: linear-gradient(135deg, #e8f5e9, #f1fdf6); border: 1.5px solid var(--green-accent); border-radius: var(--radius); padding: 22px; margin-top: 1.1rem; text-align: center; }
+#result-card h3 { color: var(--green-dark); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.9rem; }
+.cred-row { display: flex; justify-content: space-between; align-items: center; background: var(--white); border-radius: 8px; padding: 9px 14px; margin-bottom: 7px; border: 1px solid #c8e6c9; }
+.cred-label { font-size: 0.76rem; color: #5a6a5a; font-weight: 600; }
+.cred-value { font-size: 0.93rem; color: var(--green-dark); font-weight: 700; font-family: monospace; letter-spacing: 0.05em; }
+.warning-note { margin-top: 10px; padding: 9px 13px; background: #fff8e1; border-radius: 8px; font-size: 0.8rem; color: #7a5a00; display: flex; align-items: center; gap: 7px; }
+.form-note { text-align: center; margin-top: 1rem; font-size: 0.78rem; color: #8a9a8a; }
+
+/* ── RESPONSIVE ── */
+@media(max-width: 900px) {
+  .hero-content { grid-template-columns: 1fr; }
+  .hero-visual-card { display: none; }
+  .why-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .reg-left { display: none; }
+  .reg-right { width: 100%; }
+}
+@media(max-width: 600px) {
+  .nav-links { display: none; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .hero-stats { gap: 1.5rem; }
+  .advice-header { flex-direction: column; text-align: center; }
+  .profit-badge { margin-left: 0; }
+  .pc-header { flex-direction: column; align-items: flex-start; }
+  .pc-voice { margin-left: 0; }
+  .pc-body { grid-template-columns: 1fr; }
+  .pc-section { border-right: none; }
+  .form-row { grid-template-columns: 1fr; }
+  .reg-right { padding: 32px 22px; }
+  .controls-inner { gap: 0.6rem; }
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.fadein { animation: fadeUp 0.4s ease both; }
+
+/* ── EMBEDDED ADVISORY FORM ── */
+.adv-form-card {
+  background: var(--white); border: 1px solid #e0eae0; border-radius: 20px;
+  padding: 32px; box-shadow: var(--shadow); margin-bottom: 2.5rem;
+  position: relative; overflow: hidden;
+}
+.adv-form-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1599058917217-98a2d1e6465c?auto=format&fit=crop&w=1350&q=80') no-repeat center top / cover;
+  opacity: 0.04; pointer-events: none;
+}
+.adv-form-card h3 {
+  font-family: 'Playfair Display', serif; font-size: 1.25rem;
+  color: var(--green-dark); margin-bottom: 0.5rem; position: relative; z-index: 1;
+}
+.adv-form-card .form-subtitle {
+  font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.5rem; position: relative; z-index: 1;
+}
+.adv-lang-selector {
+  display: flex; gap: 0.6rem; margin-bottom: 1.4rem; flex-wrap: wrap; position: relative; z-index: 1;
+}
+.adv-lang-btn {
+  background: #f0f7f0; border: 1.5px solid #d4e8d4; border-radius: 50px;
+  padding: 6px 16px; font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem; font-weight: 600; color: var(--green-dark);
+  cursor: pointer; transition: all 0.2s;
+}
+.adv-lang-btn:hover { border-color: var(--green-accent); background: #e8f5e9; }
+.adv-lang-btn.active { background: var(--green-dark); color: var(--white); border-color: var(--green-dark); }
+.adv-form-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  margin-bottom: 1rem; position: relative; z-index: 1;
+}
+.adv-form-group { display: flex; flex-direction: column; gap: 5px; }
+.adv-form-group label {
+  font-size: 0.8rem; font-weight: 600; color: var(--green-dark); letter-spacing: 0.02em;
+}
+.adv-form-group select, .adv-form-group input[type="text"], .adv-form-group input[type="date"] {
+  width: 100%; padding: 10px 13px; border: 1.5px solid #d4e4d4; border-radius: 10px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.92rem; color: var(--green-dark);
+  background: var(--cream); outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.adv-form-group select:focus, .adv-form-group input:focus {
+  border-color: var(--green-accent); box-shadow: 0 0 0 3px rgba(46,204,113,0.1);
+}
+.adv-sub-group { display: none; margin-top: 0.6rem; position: relative; z-index: 1; }
+.adv-submit-btn {
+  width: 100%; padding: 13px; margin-top: 0.4rem;
+  background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+  color: var(--white); border: none; border-radius: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(15,61,31,0.25);
+  position: relative; z-index: 1;
+}
+.adv-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(15,61,31,0.35); }
+.adv-note {
+  text-align: center; margin-top: 0.8rem; font-size: 0.82rem;
+  color: var(--text-muted); position: relative; z-index: 1;
+}
+@media(max-width: 600px) {
+  .adv-form-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">Krishi<span>Mitra</span></div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a onclick="showPage('advisory')" id="nav-advisory">Advisory</a></li>
+    <li><a onclick="showPage('pest')" id="nav-pest">Pest Guide</a></li>
+    <li><a onclick="showPage('register')" id="nav-register" class="nav-cta">Register</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════ HOME PAGE ══════════════ -->
+<div class="page active" id="page-home">
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="fadein">
+        <div class="hero-badge">🌾 Smart Farming Platform</div>
+        <h1 class="hero-title">
+          सशक्त किसान,<br>
+          <span class="accent">Smarter</span> Farming<br>
+          <span class="gold">Better Yields</span>
+        </h1>
+        <p class="hero-sub">Empowering Indian farmers with crop advisory, pest guides, government scheme information, and precision farming tools — completely free.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="showPage('register')">Register Free →</button>
+          <button class="btn-outline" onclick="showPage('advisory')">Explore Advisory</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><div class="stat-num">16</div><div class="stat-label">Crops Covered</div></div>
+          <div class="stat"><div class="stat-num">4</div><div class="stat-label">Regions</div></div>
+          <div class="stat"><div class="stat-num">3</div><div class="stat-label">Languages</div></div>
+          <div class="stat"><div class="stat-num">Free</div><div class="stat-label">Always</div></div>
+        </div>
+      </div>
+      <div class="hero-visual-card fadein">
+        <div class="hvc-label">🌱 Supported Crops</div>
+        <div class="crop-pill-grid">
+          <div class="crop-pill" onclick="showPage('advisory')"><span class="pe">🌾</span>Wheat</div>
+          <div class="crop-pill" onclick="showPage('advisory')"><span class="pe">🌾</span>Rice</div>
+          <div class="crop-pill" onclick="showPage('advisory')"><span class="pe">🧅</span>Onion</div>
+          <div class="crop-pill" onclick="showPage('advisory')"><span class="pe">🍅</span>Tomato</div>
+          <div class="crop-pill" onclick="showPage('advisory')"><span class="pe">🥔</span>Potato</div>
+          <div class="crop-pill" onclick="showPage('advisory')"><span class="pe">🌽</span>Maize</div>
+          <div class="crop-pill" onclick="showPage('advisory')"><span class="pe">🥦</span>Cabbage</div>
+          <div class="crop-pill" onclick="showPage('advisory')"><span class="pe">🌿</span>Spinach</div>
+          <div class="crop-pill" onclick="showPage('advisory')"><span class="pe">+8</span>More</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-section">
+    <div class="section-inner">
+      <span class="section-label">What We Offer</span>
+      <h2 class="section-title">Everything a Farmer Needs</h2>
+      <p class="section-desc">From sowing to selling — KrishiMitra covers your farming journey with expert tools.</p>
+      <div class="services-grid">
+        <div class="service-card" onclick="showPage('advisory')">
+          <div class="sc-icon">🌱</div>
+          <div class="sc-title">Crop Advisory</div>
+          <div class="sc-desc">Crop-specific advice on income, modern methods, government schemes and profit ranges for 16 crops.</div>
+          <div class="sc-arrow">→</div>
+        </div>
+        <div class="service-card" onclick="showPage('pest')">
+          <div class="sc-icon">🔬</div>
+          <div class="sc-title">Pest & Disease Guide</div>
+          <div class="sc-desc">Region-wise multilingual pest identification, quick actions and control measures with voice readout.</div>
+          <div class="sc-arrow">→</div>
+        </div>
+        <div class="service-card">
+          <div class="sc-icon">🌦️</div>
+          <div class="sc-title">Weather Updates</div>
+          <div class="sc-desc">Weather forecasts to plan irrigation, harvesting and field activities. <em style="color:var(--text-muted);font-size:0.82rem;">(Coming soon)</em></div>
+        </div>
+        <div class="service-card">
+          <div class="sc-icon">💰</div>
+          <div class="sc-title">Government Schemes</div>
+          <div class="sc-desc">PM-KISAN, PMFBY, drip subsidy and horticulture scheme information. <em style="color:var(--text-muted);font-size:0.82rem;">(Coming soon)</em></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="why-section">
+    <div class="section-inner">
+      <div class="why-grid">
+        <div class="why-visual">
+          <div class="why-stat-grid">
+            <div class="why-stat-box"><div class="num">16</div><div class="label">Crops in Advisory</div></div>
+            <div class="why-stat-box"><div class="num">4</div><div class="label">Regions Covered</div></div>
+            <div class="why-stat-box"><div class="num">3</div><div class="label">Languages</div></div>
+            <div class="why-stat-box"><div class="num">Free</div><div class="label">No Hidden Cost</div></div>
+          </div>
+        </div>
+        <div>
+          <span class="section-label">Why KrishiMitra</span>
+          <h2 class="section-title">Built for the Indian Farmer</h2>
+          <p class="section-desc" style="margin-bottom:1.8rem;">Every tool is designed around how farmers actually work — simple, fast, and in your language.</p>
+          <div class="features-list">
+            <div class="feature-item">
+              <div class="fi-icon">🗣️</div>
+              <div><div class="fi-title">Multilingual Support</div><div class="fi-desc">English, Hindi and Marathi — with voice readout so every farmer can benefit.</div></div>
+            </div>
+            <div class="feature-item">
+              <div class="fi-icon">📍</div>
+              <div><div class="fi-title">Region-Specific Guidance</div><div class="fi-desc">North, South, East and West India — pest advice matched to your climate.</div></div>
+            </div>
+            <div class="feature-item">
+              <div class="fi-icon">⚡</div>
+              <div><div class="fi-title">Instant Actionable Tips</div><div class="fi-desc">Quick-action steps so you know exactly what to do when you spot a problem.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Ready to Farm Smarter?</h2>
+    <p>Register free and get instant access to crop advisory, pest guides, and scheme information.</p>
+    <div class="cta-buttons">
+      <button class="btn-primary" onclick="showPage('register')">Register as Farmer →</button>
+      <button class="btn-outline" onclick="showPage('advisory')">Get Crop Advice</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">Krishi<span>Mitra</span></div>
+        <p>Empowering Indian farmers with smart agriculture tools, advisory, and scheme information.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <a onclick="showPage('advisory')">Crop Advisory</a>
+        <a onclick="showPage('pest')">Pest Guide</a>
+        <a>Weather <span style="font-size:0.72rem;opacity:0.5">(soon)</span></a>
+        <a>Schemes <span style="font-size:0.72rem;opacity:0.5">(soon)</span></a>
+      </div>
+      <div class="footer-col">
+        <h4>Languages</h4>
+        <a>English</a>
+        <a>हिन्दी</a>
+        <a>मराठी</a>
+      </div>
+      <div class="footer-col">
+        <h4>Get Started</h4>
+        <a onclick="showPage('register')">Register</a>
+        <a onclick="showPage('home')">About</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 KrishiMitra | Made for Farmers 🌾</span>
+      <span>सशक्त किसान, समृद्ध भारत</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════ ADVISORY PAGE ══════════════ -->
+<div class="page" id="page-advisory">
+  <div class="page-hero">
+    <div class="ph-inner">
+      <div class="ph-label">🌾 Smart Tool</div>
+      <h1 class="ph-title">Crop Advisory</h1>
+      <p class="ph-desc">Select your crop and get advice on income, government schemes, modern methods, and profit estimates.</p>
+    </div>
+  </div>
+
+  <div class="adv-main">
+
+    <!-- ── SMART CROP ADVISORY FORM ── -->
+    <div class="adv-form-card">
+      <h3 id="afTitle">Smart Crop Advisory</h3>
+      <p class="form-subtitle" id="afSubtitle">Enter your farm details to receive personalized crop recommendations.</p>
+
+      <div class="adv-lang-selector">
+        <button class="adv-lang-btn active" data-lang="en">English</button>
+        <button class="adv-lang-btn" data-lang="hi">हिन्दी</button>
+        <button class="adv-lang-btn" data-lang="mr">मराठी</button>
+      </div>
+
+      <div class="adv-form-grid">
+        <!-- Region -->
+        <div class="adv-form-group">
+          <label id="afLabelRegion">Select Your Region / City</label>
+          <select id="afRegion">
+            <option value="">--Select Region--</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Pune">Pune</option>
+            <option value="Nagpur">Nagpur</option>
+            <option value="Nashik">Nashik</option>
+            <option value="Aurangabad">Aurangabad</option>
+            <option value="Kolhapur">Kolhapur</option>
+            <option value="Amravati">Amravati</option>
+            <option value="Solapur">Solapur</option>
+            <option value="Other">Other</option>
+          </select>
+          <div id="afOtherRegionDiv" class="adv-sub-group">
+            <input type="text" id="afOtherRegion" placeholder="Enter your city">
+          </div>
+        </div>
+
+        <!-- Soil Type -->
+        <div class="adv-form-group">
+          <label id="afLabelSoil">Select Soil Type</label>
+          <select id="afSoil">
+            <option value="">--Select Soil--</option>
+            <option value="Black">Black Soil</option>
+            <option value="Red">Red Soil</option>
+            <option value="Alluvial">Alluvial Soil</option>
+            <option value="Laterite">Laterite Soil</option>
+            <option value="Clay">Clay Soil</option>
+          </select>
+        </div>
+
+        <!-- Crop -->
+        <div class="adv-form-group">
+          <label id="afLabelCrop">Select Your Crop</label>
+          <select id="afCrop">
+            <option value="">--Select Crop--</option>
+            <option value="Wheat">🌾 Wheat</option>
+            <option value="Rice">🌾 Rice</option>
+            <option value="Sugarcane">🌿 Sugarcane</option>
+            <option value="Maize">🌽 Maize</option>
+            <option value="Cotton">☁️ Cotton</option>
+            <option value="Soybean">🫘 Soybean</option>
+            <option value="Vegetables">🥬 Vegetables</option>
+          </select>
+          <div id="afVegDiv" class="adv-sub-group">
+            <label id="afLabelVeg">Select Vegetable</label>
+            <select id="afVegetable">
+              <option value="">--Select Vegetable--</option>
+              <option value="Tomato">🍅 Tomato</option>
+              <option value="Potato">🥔 Potato</option>
+              <option value="Onion">🧅 Onion</option>
+              <option value="Carrot">🥕 Carrot</option>
+              <option value="Cabbage">🥬 Cabbage</option>
+              <option value="Spinach">🌿 Spinach</option>
+              <option value="Capsicum">🫑 Capsicum</option>
+              <option value="Cauliflower">🥦 Cauliflower</option>
+              <option value="Brinjal">🍆 Brinjal</option>
+              <option value="Cucumber">🥒 Cucumber</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Cropping Pattern -->
+        <div class="adv-form-group">
+          <label id="afLabelCropping">Cropping Pattern</label>
+          <select id="afCropping">
+            <option value="">--Select Pattern--</option>
+            <option value="Single">Single Cropping</option>
+            <option value="Mixed">Mixed Cropping</option>
+          </select>
+          <div id="afMixedDiv" class="adv-sub-group">
+            <label id="afLabelMixed">Select Crops for Mixed Cropping</label>
+            <select id="afMixedCrops">
+              <option value="">--Select Crops--</option>
+              <option value="Wheat+Soybean">🌾 Wheat + 🫘 Soybean</option>
+              <option value="Rice+Vegetables">🌾 Rice + 🥬 Vegetables</option>
+              <option value="Maize+Cotton">🌽 Maize + ☁️ Cotton</option>
+              <option value="Sugarcane+Vegetables">🌿 Sugarcane + 🥬 Vegetables</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Plantation Date -->
+        <div class="adv-form-group">
+          <label id="afLabelDate">Plantation Date</label>
+          <input type="date" id="afDate">
+        </div>
+      </div>
+
+      <button class="adv-submit-btn" id="afSubmitBtn" onclick="handleAdvForm()">Get Advisory →</button>
+      <p class="adv-note" id="afNote">Fill the details above to get personalized crop advisory!</p>
+    </div>
+    <!-- ── END SMART CROP ADVISORY FORM ── -->
+
+    <div class="select-card">
+      <h3>Choose Your Crop</h3>
+      <div class="crop-selector-grid" id="cropGrid"></div>
+      <button class="get-advice-btn" id="adviceBtn" onclick="getAdvice()" disabled>Get Personalized Advice →</button>
+    </div>
+
+    <div id="advice-output">
+      <div class="advice-header">
+        <div class="ah-emoji" id="cropEmoji"></div>
+        <div>
+          <div class="ah-title" id="cropName"></div>
+          <div class="ah-sub">Advisory Report</div>
+        </div>
+        <div class="profit-badge">
+          <div class="pb-num" id="profitNum"></div>
+          <div class="pb-label">per acre (est.)</div>
+        </div>
+      </div>
+      <div class="advice-cards">
+        <div class="acard"><div class="acard-icon">📢</div><div class="acard-label">Government Schemes</div><div class="acard-content" id="schemes"></div></div>
+        <div class="acard"><div class="acard-icon">💰</div><div class="acard-label">Income Tips</div><div class="acard-content" id="income"></div></div>
+        <div class="acard"><div class="acard-icon">🌿</div><div class="acard-label">Modern Methods</div><div class="acard-content" id="methods"></div></div>
+        <div class="acard"><div class="acard-icon">📚</div><div class="acard-label">Farmer Awareness</div><div class="acard-content" id="awareness"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PEST PAGE ══════════════ -->
+<div class="page" id="page-pest">
+  <div class="page-hero">
+    <div class="ph-inner">
+      <div class="ph-label">🔬 Field Tool</div>
+      <h1 class="ph-title">Pest & Disease Guide</h1>
+      <p class="ph-desc">Region-wise, multilingual pest identification with quick-action steps and voice readout.</p>
+    </div>
+  </div>
+
+  <div class="controls-bar">
+    <div class="controls-inner">
+      <span class="ctrl-label">Region</span>
+      <button class="filter-btn active" onclick="filterRegion('west',this)">🌵 West</button>
+      <button class="filter-btn" onclick="filterRegion('north',this)">🏔️ North</button>
+      <button class="filter-btn" onclick="filterRegion('south',this)">🌴 South</button>
+      <button class="filter-btn" onclick="filterRegion('east',this)">🌊 East</button>
+      <div class="divider-v"></div>
+      <span class="ctrl-label">Language</span>
+      <button class="filter-btn active" onclick="setLang('en',this)">English</button>
+      <button class="filter-btn" onclick="setLang('hi',this)">हिन्दी</button>
+      <button class="filter-btn" onclick="setLang('mr',this)">मराठी</button>
+    </div>
+  </div>
+
+  <div class="pest-main" id="pestCards"></div>
+</div>
+
+<!-- ══════════════ REGISTER PAGE ══════════════ -->
+<div class="page" id="page-register">
+  <div class="register-wrap">
+    <div class="reg-left">
+      <div class="rl-logo" onclick="showPage('home')">Krishi<span>Mitra</span></div>
+      <div class="rl-content">
+        <div class="rl-badge">🌾 Farmer Portal</div>
+        <h2 class="rl-title">Join India's<br><span class="accent">Smarter</span><br>Farming Platform</h2>
+        <p class="rl-desc">Register once and get lifetime access to crop advisory, pest guides, and scheme information — completely free.</p>
+        <div class="rl-stats">
+          <div><div class="rls-num">16</div><div class="rls-label">Crops Covered</div></div>
+          <div><div class="rls-num">Free</div><div class="rls-label">Always</div></div>
+          <div><div class="rls-num">3</div><div class="rls-label">Languages</div></div>
+        </div>
+      </div>
+      <div class="rl-bottom">
+        <div class="rl-features">
+          <div class="rl-feat"><div class="rl-dot"></div>Personalized crop advice</div>
+          <div class="rl-feat"><div class="rl-dot"></div>Region-wise pest alerts</div>
+          <div class="rl-feat"><div class="rl-dot"></div>Government scheme info</div>
+          <div class="rl-feat"><div class="rl-dot"></div>Voice support in Hindi & Marathi</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reg-right">
+      <button class="rr-back" onclick="showPage('home')">← Back to Home</button>
+      <div class="form-header" style="margin-top:40px;">
+        <h2>Create Account</h2>
+        <p>Register to access all farming tools for free</p>
+      </div>
+
+      <form id="regForm" target="hidden_iframe"
+        action="https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"
+        method="POST">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input class="form-input" type="text" name="entry.111111111" placeholder="Ramesh Patil" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Contact Number</label>
+            <input class="form-input" type="tel" name="entry.222222222" placeholder="9876543210" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Age</label>
+            <input class="form-input" type="number" name="entry.555555555" placeholder="35" min="18" max="90" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <input class="form-input" type="text" name="entry.333333333" placeholder="Choose a username" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" name="entry.444444444" placeholder="farmer@example.com" required>
+        </div>
+        <input type="hidden" id="farmerId" name="entry.666666666">
+        <input type="hidden" id="generatedPass" name="entry.777777777">
+        <button type="submit" class="btn-submit">Register as Farmer →</button>
+      </form>
+      <iframe name="hidden_iframe" style="display:none;"></iframe>
+
+      <div id="result-card">
+        <h3>✅ Registration Successful!</h3>
+        <div class="cred-row"><span class="cred-label">Farmer ID</span><span class="cred-value" id="showId">—</span></div>
+        <div class="cred-row"><span class="cred-label">Password</span><span class="cred-value" id="showPass">—</span></div>
+        <div class="warning-note">⚠️ Please save your credentials. You'll need them to log in.</div>
+      </div>
+      <p class="form-note">Your data is used only to improve agricultural advisory.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── PAGE NAVIGATION ── */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + id);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+/* ── ADVISORY ── */
+const crops = [
+  { id:'wheat', label:'Wheat', emoji:'🌾' }, { id:'rice', label:'Rice', emoji:'🌾' },
+  { id:'cotton', label:'Cotton', emoji:'☁️' }, { id:'sugarcane', label:'Sugarcane', emoji:'🌿' },
+  { id:'maize', label:'Maize', emoji:'🌽' }, { id:'soybean', label:'Soybean', emoji:'🫘' },
+  { id:'tomato', label:'Tomato', emoji:'🍅' }, { id:'onion', label:'Onion', emoji:'🧅' },
+  { id:'potato', label:'Potato', emoji:'🥔' }, { id:'carrot', label:'Carrot', emoji:'🥕' },
+  { id:'cabbage', label:'Cabbage', emoji:'🥬' }, { id:'spinach', label:'Spinach', emoji:'🌿' },
+  { id:'capsicum', label:'Capsicum', emoji:'🫑' }, { id:'cauliflower', label:'Cauliflower', emoji:'🥦' },
+  { id:'brinjal', label:'Brinjal', emoji:'🍆' }, { id:'cucumber', label:'Cucumber', emoji:'🥒' }
+];
+const cropData = {
+  wheat:      { schemes:"PM-KISAN, Crop Insurance", income:"Use high-yield seeds, drip irrigation", methods:"Precision farming, soil testing", profit:"₹40k–₹60k", awareness:"Use mobile apps for updates" },
+  rice:       { schemes:"Seed subsidy, irrigation schemes", income:"Use SRI method", methods:"Smart irrigation, drones", profit:"₹30k–₹50k", awareness:"Climate-smart farming" },
+  cotton:     { schemes:"BT seed subsidy, insurance", income:"Pest-resistant seeds", methods:"IPM, drip irrigation", profit:"₹50k–₹80k", awareness:"Soil testing, advisory apps" },
+  sugarcane:  { schemes:"Drip irrigation subsidy", income:"Ratoon cropping", methods:"Mechanized farming", profit:"₹80k–₹1.2L", awareness:"Organic farming methods" },
+  maize:      { schemes:"Seed subsidy, PMFBY", income:"Hybrid seeds, proper spacing", methods:"Precision farming", profit:"₹25k–₹45k", awareness:"Weather-based advisory" },
+  soybean:    { schemes:"Oilseed mission subsidy", income:"Crop rotation, pest control", methods:"Integrated farming", profit:"₹30k–₹55k", awareness:"Soil health card usage" },
+  tomato:     { schemes:"Horticulture subsidy", income:"Polyhouse farming", methods:"Drip + mulching", profit:"₹60k–₹1L", awareness:"Market price tracking" },
+  onion:      { schemes:"Storage subsidy", income:"Proper curing & storage", methods:"Modern irrigation", profit:"₹50k–₹90k", awareness:"Government mandi updates" },
+  potato:     { schemes:"Horticulture subsidy, Cold storage schemes", income:"Certified seeds, proper spacing", methods:"Drip irrigation, mulching", profit:"₹50k–₹90k", awareness:"Storage techniques, market timing" },
+  carrot:     { schemes:"Horticulture subsidy", income:"Improved seeds, timely irrigation", methods:"Raised bed farming", profit:"₹40k–₹70k", awareness:"Soil health management" },
+  cabbage:    { schemes:"Vegetable farming subsidy", income:"Hybrid seeds, pest control", methods:"Drip irrigation", profit:"₹50k–₹80k", awareness:"Market linkage awareness" },
+  spinach:    { schemes:"Organic farming subsidy", income:"Frequent harvesting", methods:"Organic cultivation", profit:"₹30k–₹60k", awareness:"Nutrient management" },
+  capsicum:   { schemes:"Polyhouse subsidy", income:"Protected cultivation", methods:"Greenhouse farming", profit:"₹80k–₹1.5L", awareness:"Export quality production" },
+  cauliflower:{ schemes:"Seed subsidy", income:"Seasonal variety selection", methods:"Mulching, drip irrigation", profit:"₹40k–₹75k", awareness:"Climate-based farming" },
+  brinjal:    { schemes:"Vegetable subsidy", income:"Pest management (BT varieties)", methods:"Integrated pest management", profit:"₹50k–₹90k", awareness:"Regular crop monitoring" },
+  cucumber:   { schemes:"Polyhouse subsidy", income:"Trellis farming", methods:"Drip irrigation + mulching", profit:"₹60k–₹1L", awareness:"Disease control practices" }
+};
+
+let selectedCrop = null;
+const grid = document.getElementById('cropGrid');
+crops.forEach(crop => {
+  const btn = document.createElement('div');
+  btn.className = 'crop-btn';
+  btn.innerHTML = `<span class="ce">${crop.emoji}</span>${crop.label}`;
+  btn.onclick = () => {
+    document.querySelectorAll('.crop-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedCrop = crop;
+    document.getElementById('adviceBtn').disabled = false;
+  };
+  grid.appendChild(btn);
+});
+
+function getAdvice() {
+  if (!selectedCrop) return;
+  const d = cropData[selectedCrop.id];
+  document.getElementById('cropEmoji').textContent = selectedCrop.emoji;
+  document.getElementById('cropName').textContent = selectedCrop.label;
+  document.getElementById('profitNum').textContent = d.profit;
+  document.getElementById('schemes').textContent = d.schemes;
+  document.getElementById('income').textContent = d.income;
+  document.getElementById('methods').textContent = d.methods;
+  document.getElementById('awareness').textContent = d.awareness;
+  const out = document.getElementById('advice-output');
+  out.style.display = 'block';
+  out.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+/* ── PEST GUIDE ── */
+const pestData = [
+  {
+    region:'west',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Spodoptera_frugiperda_%28fall_armyworm%29_caterpillar.jpg/320px-Spodoptera_frugiperda_%28fall_armyworm%29_caterpillar.jpg',
+    en:{ title:'Fall Armyworm (Maize)', season:'🌧️ Monsoon', identify:'Holes in leaves, green/brown caterpillars inside whorl', quick:'Spray Neem oil + install pheromone traps immediately', damage:['50–70% crop loss possible','Rapid field-wide spread'], advantages:['Food source for birds and beneficial insects'], control:['Handpick larvae early','Neem oil spray','Release Trichogramma','Emamectin benzoate / Spinosad spray'], cost:'Medium', best:'Early stage (0–15 days)' },
+    hi:{ title:'फॉल आर्मीवॉर्म (मकई)', season:'🌧️ मानसून', identify:'पत्तियों में छेद, हरे/भूरे कैटरपिलर', quick:'नीम का तेल छिड़कें + फेरेमोन ट्रैप लगाएँ', damage:['50–70% फसल नुकसान','तेजी से फैलता है'], advantages:['पक्षियों और लाभकारी कीड़ों के लिए भोजन'], control:['हाथ से शिशुओं को निकालें','नीम का तेल','ट्राइकोग्राम्मा उपयोग','इमामेक्टिन बेंजोएट'], cost:'मध्यम', best:'प्रारंभिक चरण (0–15 दिन)' },
+    mr:{ title:'फॉल आर्मीवॉर्म (मका)', season:'🌧️ मान्सून', identify:'पानांमध्ये छिद्र, हिरवे/तपकिरी केटरपिलर', quick:'निंबोळी तेल पसरवा + फेरोमोन ट्रॅप लावा', damage:['50–70% पीक नुकसान','जलद पसरतो'], advantages:['पक्षी व उपयोगी कीडांसाठी अन्न'], control:['लार्वा हाताने काढा','निंबोळी तेल','ट्रायकोग्राम्मा सोडा','इमामेक्टिन बेंजोएट'], cost:'मध्यम', best:'सुरुवातीचा टप्पा (0–15 दिवस)' }
+  },
+  {
+    region:'north',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Aphis_gossypii_27268.jpg/320px-Aphis_gossypii_27268.jpg',
+    en:{ title:'Aphids (Wheat & Mustard)', season:'❄️ Winter', identify:'Small green/black insects, sticky honeydew, curled or yellowing leaves', quick:'Spray soap water solution immediately', damage:['Weak plant growth','Reduced grain quality','Attracts fungal disease'], advantages:['Food source for ladybird beetles'], control:['Encourage ladybird beetles','Reduce excess nitrogen fertilizer','Imidacloprid spray if severe'], cost:'Low', best:'Early infestation' },
+    hi:{ title:'एपिड्स (गेहूं और सरसों)', season:'❄️ सर्दी', identify:'छोटे हरे/काले कीड़े, चिपचिपा रस, पत्ते मुड़ना/पीला होना', quick:'तुरंत साबुन के पानी का छिड़काव करें', damage:['कमज़ोर पौधे','अनाज की गुणवत्ता कम','फफूंदी आकर्षित'], advantages:['लैडीबर्ड बीटल के लिए भोजन'], control:['लैडीबर्ड बीटल को बढ़ावा दें','अत्यधिक नाइट्रोजन कम करें','इमिडाक्लोप्रिड छिड़काव'], cost:'कम', best:'प्रारंभिक संक्रमण' },
+    mr:{ title:'एपिड्स (गहू व मोहरी)', season:'❄️ हिवाळा', identify:'लहान हिरवे/काळे कीडे, चिकट रस, पाने वाकडी/पिवळी', quick:'ताबडतोब साबण पाण्याचा स्प्रे करा', damage:['कमजोर वाढ','धान्याची गुणवत्ता कमी','बुरशी येते'], advantages:['लेडीबर्ड बीटलसाठी अन्न'], control:['लेडीबर्ड बीटलला प्रोत्साहन','जास्त नायट्रोजन कमी करा','इमिडाक्लोप्रिड स्प्रे'], cost:'कमी', best:'प्रारंभिक संक्रमण' }
+  },
+  {
+    region:'south',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Rice_stem_borer_adult.jpg/320px-Rice_stem_borer_adult.jpg',
+    en:{ title:'Rice Stem Borer', season:'🌧️ Monsoon', identify:'Dead heart in vegetative stage, white ear at heading', quick:'Remove affected plants + install light traps at night', damage:['Heavy yield loss possible','Entire tiller dies'], advantages:['None significant'], control:['Light traps at night','Neem-based pesticides','Resistant varieties'], cost:'Medium', best:'Early stage detection' },
+    hi:{ title:'चावल स्टेम बोअर', season:'🌧️ मानसून', identify:'डेड हार्ट, सफेद कान', quick:'प्रभावित पौधे हटाएँ + लाइट ट्रैप लगाएँ', damage:['भारी उत्पादन नुकसान','पूरा तिलर मर जाता है'], advantages:['कोई नहीं'], control:['रात में लाइट ट्रैप','नीम आधारित कीटनाशक','प्रतिरोधी किस्में'], cost:'मध्यम', best:'प्रारंभिक चरण' },
+    mr:{ title:'तांदूळ स्टेम बोअर', season:'🌧️ मान्सून', identify:'डेड हार्ट, पांढरे कान', quick:'प्रभावित झाडे काढा + लाइट ट्रॅप लावा', damage:['उत्पादनात मोठा तोटा','संपूर्ण फुटवा मरतो'], advantages:['नाही'], control:['रात्री लाइट ट्रॅप','निंबोळी कीटकनाशक','प्रतिरोधक जात'], cost:'मध्यम', best:'सुरुवातीचा टप्पा' }
+  },
+  {
+    region:'east',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Brown_spot_rice.jpg/320px-Brown_spot_rice.jpg',
+    en:{ title:'Brown Spot Disease (Rice)', season:'💧 Humid/Wet Season', identify:'Brown oval spots on leaves and grains, yellowing around spots', quick:'Apply fungicide spray + increase plant spacing', damage:['Reduced yield','Poor grain quality'], advantages:['None'], control:['Use certified seeds','Maintain proper plant spacing','Fungicide (Mancozeb) spray'], cost:'Medium', best:'Early detection within 10 days' },
+    hi:{ title:'ब्राउन स्पॉट रोग (चावल)', season:'💧 आर्द्र/गीला', identify:'पत्तों और दानों पर भूरे अंडाकार धब्बे', quick:'फफूंदनाशक छिड़काव + उचित अंतर रखें', damage:['उत्पादन में कमी','अनाज गुणवत्ता कम'], advantages:['कोई नहीं'], control:['प्रमाणित बीज','उचित दूरी','फफूंदनाशक छिड़काव'], cost:'मध्यम', best:'10 दिनों में प्रारंभिक पहचान' },
+    mr:{ title:'ब्राउन स्पॉट रोग (तांदूळ)', season:'💧 ओलसर/पावसाळी', identify:'पाने व दाण्यांवर तपकिरी अंडाकृती डाग', quick:'बुरशीनाशक स्प्रे + योग्य अंतर ठेवा', damage:['उत्पादन कमी','धान्याची गुणवत्ता कमी'], advantages:['नाही'], control:['प्रमाणित बियाणे','योग्य अंतर','बुरशीनाशक स्प्रे'], cost:'मध्यम', best:'10 दिवसांत सुरुवातीची ओळख' }
+  }
+];
+
+let currentLang = 'en';
+let currentRegion = 'west';
+
+function renderPests() {
+  const container = document.getElementById('pestCards');
+  container.innerHTML = '';
+  pestData.forEach((pest, idx) => {
+    const d = pest[currentLang];
+    const card = document.createElement('div');
+    card.className = 'pest-card' + (pest.region === currentRegion ? ' visible' : '');
+    card.dataset.region = pest.region;
+    card.innerHTML = `
+      <div class="pc-header">
+        <img class="pc-img" src="${pest.img}" alt="${d.title}" onerror="this.style.display='none'">
+        <div style="flex:1">
+          <div class="pc-region-badge">${pest.region.charAt(0).toUpperCase()+pest.region.slice(1)} India</div>
+          <div class="pc-title">${d.title}</div>
+          <div class="pc-season">${d.season}</div>
+          <div style="margin-top:7px;font-size:0.85rem;color:var(--text-muted)"><strong>Identify:</strong> ${d.identify}</div>
+        </div>
+        <button class="pc-voice" onclick="speakPest(${idx})">🔊 Listen</button>
+      </div>
+      <div class="pc-quick">⚡ ${d.quick}</div>
+      <div class="pc-body">
+        <div class="pc-section damage-section">
+          <div class="pc-section-title">⚠️ Damage</div>
+          <ul class="pc-list">${d.damage.map(i=>`<li>${i}</li>`).join('')}</ul>
+        </div>
+        <div class="pc-section">
+          <div class="pc-section-title">✅ Control Measures</div>
+          <ul class="pc-list">${d.control.map(i=>`<li>${i}</li>`).join('')}</ul>
+        </div>
+        <div class="pc-section">
+          <div class="pc-section-title">🌿 Notes</div>
+          <ul class="pc-list">${d.advantages.map(i=>`<li>${i}</li>`).join('')}</ul>
+        </div>
+      </div>
+      <div class="pc-footer">
+        <div class="pc-tag"><span>💰</span> <strong>Cost:</strong> ${d.cost}</div>
+        <div class="pc-tag"><span>⏰</span> <strong>Best Time:</strong> ${d.best}</div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function filterRegion(region, btn) {
+  currentRegion = region;
+  btn.closest('.ctrl-group') 
+    ? btn.closest('.ctrl-group').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'))
+    : null;
+  // manually handle region buttons
+  document.querySelectorAll('#page-pest .filter-btn').forEach(b => {
+    if(['west','north','south','east'].some(r=>b.getAttribute('onclick')&&b.getAttribute('onclick').includes(`'${r}'`))) {
+      b.classList.remove('active');
+    }
+  });
+  btn.classList.add('active');
+  document.querySelectorAll('.pest-card').forEach(card => {
+    card.classList.toggle('visible', card.dataset.region === region);
+  });
+}
+
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('#page-pest .filter-btn').forEach(b => {
+    if(['en','hi','mr'].some(l=>b.getAttribute('onclick')&&b.getAttribute('onclick').includes(`'${l}'`))) {
+      b.classList.remove('active');
+    }
+  });
+  btn.classList.add('active');
+  renderPests();
+}
+
+function speakPest(idx) {
+  const d = pestData[idx][currentLang];
+  const text = `${d.title}. Season: ${d.season}. How to identify: ${d.identify}. Quick action: ${d.quick}. Damage: ${d.damage.join(', ')}. Control measures: ${d.control.join(', ')}. Cost: ${d.cost}. Best time: ${d.best}.`;
+  const synth = window.speechSynthesis;
+  if (synth.speaking) synth.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = currentLang==='en' ? 'en-IN' : currentLang==='hi' ? 'hi-IN' : 'mr-IN';
+  synth.speak(utter);
+}
+
+/* ── REGISTER ── */
+function generateID() { return 'FARM' + Math.floor(1000 + Math.random() * 9000); }
+function generatePassword() { return Math.random().toString(36).slice(-8); }
+
+document.getElementById('regForm').addEventListener('submit', function() {
+  const id = generateID(), pass = generatePassword();
+  document.getElementById('farmerId').value = id;
+  document.getElementById('generatedPass').value = pass;
+  document.getElementById('showId').textContent = id;
+  document.getElementById('showPass').textContent = pass;
+  setTimeout(() => {
+    document.getElementById('result-card').style.display = 'block';
+    document.getElementById('result-card').scrollIntoView({ behavior:'smooth' });
+  }, 300);
+});
+
+/* ── SMART ADVISORY FORM ── */
+(function() {
+  const afTexts = {
+    en: { title:"Smart Crop Advisory", subtitle:"Enter your farm details to receive personalized crop recommendations.", labelRegion:"Select Your Region / City", labelSoil:"Select Soil Type", labelCrop:"Select Your Crop", labelVeg:"Select Vegetable", labelCropping:"Cropping Pattern", labelMixed:"Select Crops for Mixed Cropping", labelDate:"Plantation Date", submitBtn:"Get Advisory →", note:"Fill the details above to get personalized crop advisory!" },
+    hi: { title:"स्मार्ट फसल परामर्श", subtitle:"व्यक्तिगत फसल सुझाव पाने के लिए अपने खेत की जानकारी दर्ज करें।", labelRegion:"अपना क्षेत्र / शहर चुनें", labelSoil:"मिट्टी का प्रकार चुनें", labelCrop:"अपनी फसल चुनें", labelVeg:"सब्ज़ी चुनें", labelCropping:"फसल पैटर्न", labelMixed:"मिश्रित फसलों के लिए फसल चुनें", labelDate:"रोपण तिथि", submitBtn:"परामर्श प्राप्त करें →", note:"व्यक्तिगत फसल परामर्श के लिए ऊपर विवरण भरें!" },
+    mr: { title:"स्मार्ट पीक सल्ला", subtitle:"वैयक्तिक पिक शिफारसींसाठी आपल्या शेताची माहिती भरा।", labelRegion:"आपला प्रदेश / शहर निवडा", labelSoil:"मातीचा प्रकार निवडा", labelCrop:"आपली पिक निवडा", labelVeg:"भाजीपाला निवडा", labelCropping:"पिक पद्धत", labelMixed:"मिश्र पिकांसाठी पिक निवडा", labelDate:"लागवड तारीख", submitBtn:"सल्ला मिळवा →", note:"वैयक्तिक पिक सल्ल्यासाठी वरील तपशील भरा!" }
+  };
+
+  // Language buttons
+  document.querySelectorAll('.adv-lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.adv-lang-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const lang = btn.getAttribute('data-lang');
+      const t = afTexts[lang];
+      document.getElementById('afTitle').textContent = t.title;
+      document.getElementById('afSubtitle').textContent = t.subtitle;
+      document.getElementById('afLabelRegion').textContent = t.labelRegion;
+      document.getElementById('afLabelSoil').textContent = t.labelSoil;
+      document.getElementById('afLabelCrop').textContent = t.labelCrop;
+      document.getElementById('afLabelVeg').textContent = t.labelVeg;
+      document.getElementById('afLabelCropping').textContent = t.labelCropping;
+      document.getElementById('afLabelMixed').textContent = t.labelMixed;
+      document.getElementById('afLabelDate').textContent = t.labelDate;
+      document.getElementById('afSubmitBtn').textContent = t.submitBtn;
+      document.getElementById('afNote').textContent = t.note;
+    });
+  });
+
+  // Conditional show/hide
+  document.getElementById('afRegion').addEventListener('change', function() {
+    document.getElementById('afOtherRegionDiv').style.display = this.value === 'Other' ? 'block' : 'none';
+  });
+  document.getElementById('afCrop').addEventListener('change', function() {
+    document.getElementById('afVegDiv').style.display = this.value === 'Vegetables' ? 'block' : 'none';
+  });
+  document.getElementById('afCropping').addEventListener('change', function() {
+    document.getElementById('afMixedDiv').style.display = this.value === 'Mixed' ? 'block' : 'none';
+  });
+})();
+
+function handleAdvForm() {
+  const regionEl = document.getElementById('afRegion');
+  const soilEl   = document.getElementById('afSoil');
+  const cropEl   = document.getElementById('afCrop');
+  const vegEl    = document.getElementById('afVegetable');
+  const croppatEl= document.getElementById('afCropping');
+  const mixedEl  = document.getElementById('afMixedCrops');
+  const dateEl   = document.getElementById('afDate');
+
+  if (!regionEl.value || !soilEl.value || !cropEl.value || !croppatEl.value || !dateEl.value) {
+    document.getElementById('afNote').textContent = '⚠️ Please fill all required fields before getting advisory.';
+    document.getElementById('afNote').style.color = '#e53935';
+    return;
+  }
+
+  let region = regionEl.value === 'Other'
+    ? (document.getElementById('afOtherRegion').value || 'Unknown') : regionEl.value;
+  let cropDetail = cropEl.value;
+  if (cropEl.value === 'Vegetables' && vegEl.value) cropDetail += ` (${vegEl.value})`;
+  if (croppatEl.value === 'Mixed' && mixedEl.value) cropDetail += ` – ${mixedEl.value}`;
+
+  // Map to existing cropData keys
+  const cropMap = {
+    'Wheat':'wheat','Rice':'rice','Sugarcane':'sugarcane','Maize':'maize',
+    'Cotton':'cotton','Soybean':'soybean',
+    'Vegetables':'tomato' // default veg; override below
+  };
+  const vegMap = {
+    'Tomato':'tomato','Potato':'potato','Onion':'onion','Carrot':'carrot',
+    'Cabbage':'cabbage','Spinach':'spinach','Capsicum':'capsicum',
+    'Cauliflower':'cauliflower','Brinjal':'brinjal','Cucumber':'cucumber'
+  };
+
+  let key = cropMap[cropEl.value] || 'wheat';
+  if (cropEl.value === 'Vegetables' && vegEl.value && vegMap[vegEl.value]) {
+    key = vegMap[vegEl.value];
+  }
+
+  const cropObj = crops.find(c => c.id === key) || crops[0];
+
+  // Pre-select the crop in the selector grid
+  document.querySelectorAll('.crop-btn').forEach(b => b.classList.remove('selected'));
+  const matchBtn = [...document.querySelectorAll('.crop-btn')]
+    .find(b => b.textContent.trim().toLowerCase().includes(cropObj.label.toLowerCase()));
+  if (matchBtn) {
+    matchBtn.classList.add('selected');
+    selectedCrop = cropObj;
+    document.getElementById('adviceBtn').disabled = false;
+  } else {
+    selectedCrop = cropObj;
+  }
+
+  const d = cropData[key];
+  document.getElementById('cropEmoji').textContent = cropObj.emoji;
+  document.getElementById('cropName').textContent = `${cropDetail} — ${region} (${soilEl.value} Soil)`;
+  document.getElementById('profitNum').textContent = d.profit;
+  document.getElementById('schemes').textContent = d.schemes;
+  document.getElementById('income').textContent = d.income;
+  document.getElementById('methods').textContent = d.methods;
+  document.getElementById('awareness').textContent = d.awareness;
+
+  const out = document.getElementById('advice-output');
+  out.style.display = 'block';
+  out.classList.add('fadein');
+  out.scrollIntoView({ behavior:'smooth', block:'start' });
+
+  document.getElementById('afNote').textContent = '✅ Advisory loaded below!';
+  document.getElementById('afNote').style.color = 'var(--green-mid)';
+}
+
+/* init */
+renderPests();
+</script>
+</body>
+</html>
